@@ -8,6 +8,7 @@ function App() {
   const [sessiontime, setSessiontime] = useState(25);
   const [timer, setTimer] = useState(25*60);
   const [start, setStart] = useState(false);
+  const [reset, setReset] = useState(false);
 
 
   function handleClick(e){
@@ -35,6 +36,16 @@ function App() {
     setTimer(sessiontime*60);
   },[sessiontime])
 
+  useEffect(() => {
+    if (reset === true) {
+      setSessiontime(25);
+      setTimer(sessiontime*60);
+      setStart(false);
+      setReset(false);
+    }
+  },[reset,timer,sessiontime,start])
+
+
   return (
     <div className="App">
       <h1>Clock 25 + 5</h1>
@@ -51,7 +62,7 @@ function App() {
 
       <div className="controls">
         <button id="start_stop" onClick={() => setStart(!start)}>Start</button>
-        <button id="reset">Reset</button>
+        <button id="reset" onClick={() => setReset(!reset)}>Reset</button>
       </div>
     </div>
   );
