@@ -1,13 +1,13 @@
 import React from 'react'
 
-export default function Demo({wrapper, label, id, length, decrement, increment}) {
+export default function Demo({click, wrapper, label, id, length, decrement, increment, text}) {
     return (
         <div className={wrapper}>
-          <div id={label}>Break Length</div>
+          <div id={label}>{text}</div>
           <div className="controls"> 
-            <button id={decrement}>up</button>
+            <button className='increment' onClick={click} id={decrement}>down</button>
             <div id={id}>{length}</div>
-            <button id={increment}>down</button>
+            <button className='decrement' onClick={click} id={increment}>up</button>
           </div>
         </div>
     )
