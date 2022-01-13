@@ -11,7 +11,6 @@ function App() {
   const [session, setSession] = useState('Session');
   const [isSession,setIsSession] = useState(true);
 
-
   function handleClick(e){
     if (e.target.id === "break-decrement" && breaktime > 1) {
       setBreaktime(breaktime - 1);
@@ -37,8 +36,10 @@ function App() {
     setTimer(sessiontime*60);
   },[sessiontime])
 
-
   function handleReset() {
+    const audio = document.querySelector('audio');
+    audio.pause();
+    audio.currentTime = 0;
     setBreaktime(5);
     setSessiontime(25);
     setStart(false);
@@ -50,11 +51,13 @@ function App() {
   }, [isSession])
 
   useEffect(() => {
+    const audio = document.querySelector('audio');
     if( timer === 0 && isSession === true) {
       setTimer(breaktime*60);
       setStart(true);
       setSession('Break');
       setIsSession(false);
+      audio.play();
     } else if (timer === 0 && isSession === false) {
       setTimer(sessiontime*60);
       setStart(true);
@@ -81,6 +84,7 @@ function App() {
       <div className="controls">
         <button id="start_stop" onClick={() => setStart(!start)}>Start</button>
         <button id="reset" onClick={handleReset}>Reset</button>
+        <audio src="./BeepSound.wav" id="beep"></audio>
       </div>
     </div>
   );
