@@ -1,7 +1,8 @@
-import './App.css';
 import { useEffect, useState } from 'react';
 import Demo from './Demo'
 import { format_time } from '../utils/time_format';
+import { Paper, Box, Button, Typography, Stack } from '@mui/material';
+import { PauseCircleFilled, PlayArrow } from '@mui/icons-material';
 
 function App() {
   const [breaktime, setBreaktime] = useState(5);
@@ -66,25 +67,38 @@ function App() {
 
 
   return (
-    <div className="App">
-      <h1>Clock 25 + 5</h1>
+    <Paper elevation={9} className="App" 
+    sx={{padding: "25px 30px",
+    display: "flex", 
+    gap: "20px", 
+    flexDirection: "column",
+    textAlign:'center',
+    background: '#90EE90'
+    }} >
+      <Typography variant='h3' children='Clock 25 + 5' />
 
-      <div className="length-wrapper">
+      <Stack direction='row' spacing={1} textAlign='center' justifyContent='space-around' className="length-wrapper">
         <Demo click={handleClick} wrapper={"break-len"} label={"break-label"} text={"Break length"} id={"break-length"} length={breaktime} decrement={"break-decrement"} increment={"break-increment"} />
         <Demo click={handleClick} wrapper={"session-len"} label={"session-label"} text={"Session Length"} id={"session-length"} length={sessiontime} decrement={"session-decrement"} increment={"session-increment"} />
-      </div>
+      </Stack>
 
-      <div className="session">
+      <Box className="session">
         <div id="timer-label">{isSession?'Session':'Break'}</div>
         <div id="time-left">{format_time(timer)}</div>
-      </div>
+      </Box>
 
-      <div className="controls">
-        <button id="start_stop" onClick={() => setStart(!start)}>Start</button>
-        <button id="reset" onClick={handleReset}>Reset</button>
+      <Stack direction='row' justifyContent='space-around' className="controls">
+        <Button
+          variant="contained"
+          id="start_stop"
+          onClick={() => setStart(!start)}
+          children={start?'Stop':'Start'}
+          startIcon={start? <PauseCircleFilled/> :<PlayArrow />}
+        />
+        <Button variant='contained' id="reset" onClick={handleReset}>Reset</Button>
         <audio src="./BeepSound.wav" id="beep"></audio>
-      </div>
-    </div>
+      </Stack>
+    </Paper>
   );
 }
 
