@@ -8,7 +8,6 @@ function App() {
   const [sessiontime, setSessiontime] = useState(25);
   const [timer, setTimer] = useState(25*60);
   const [start, setStart] = useState(false);
-  const [session, setSession] = useState('Session');
   const [isSession,setIsSession] = useState(true);
 
   function handleClick(e){
@@ -24,13 +23,13 @@ function App() {
   }
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const interval = setTimeout(() => {
       if (timer > 0 && start) {
-        setTimer(timer - 1);
+        setTimer(t => t - 1);
       }
-    },200)
-    return () => clearInterval(interval);
-  },[timer,start])
+    },1000)
+    return () => clearTimeout(interval);
+  },[timer, start])
 
   useEffect(() => {
     setTimer(sessiontime*60);
@@ -46,25 +45,24 @@ function App() {
     setIsSession(true);
   }
 
-  useEffect(() => {
-    setSession(isSession ? 'Session' : 'Break');
-  }, [isSession])
 
   useEffect(() => {
     const audio = document.querySelector('audio');
     if( timer === 0 && isSession === true) {
-      setTimer(breaktime*60);
-      setStart(true);
-      setSession('Break');
-      setIsSession(false);
       audio.play();
+      setTimeout(() => {
+        setTimer(breaktime*60);
+        setStart(true);
+        setIsSession(false);
+      }, 1000)
     } else if (timer === 0 && isSession === false) {
-      setTimer(sessiontime*60);
-      setStart(true);
-      setSession('Session');
-      setIsSession(true);
+      setTimeout(() => {
+        setTimer(sessiontime*60);
+        setStart(true);
+        setIsSession(true);
+      }, 1000)
     }
-  },[timer,breaktime,sessiontime,session,isSession])
+  },[timer,breaktime,sessiontime,isSession])
 
 
   return (
@@ -77,7 +75,7 @@ function App() {
       </div>
 
       <div className="session">
-        <div id="timer-label">{session}</div>
+        <div id="timer-label">{isSession?'Session':'Break'}</div>
         <div id="time-left">{format_time(timer)}</div>
       </div>
 
