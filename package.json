@@ -2,7 +2,7 @@
   "name": "fcc-clock",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://sarangwadode.github.io/react-gh-pages",
+  "homepage": "http://sarangwadode.github.io/fcc-clock",
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
